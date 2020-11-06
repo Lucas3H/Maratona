@@ -61,7 +61,6 @@ int main(){
         if(op(t1) > op(t2)) l = t1;
         else r = t2;
 
-    //    cout << l << " " << r << endl;
     }
 
     ll ans = op(l);
@@ -69,10 +68,5 @@ int main(){
         ans = min(ans, op(i));
     }
 
-/*
-    cout << l << " " << lm << endl;
-    cout << r << " " << rm << endl;
-    cout << (l+r)/2 << " " << mid << endl;
-*/
     cout << ans << endl;
 }

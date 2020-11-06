@@ -1,0 +1,47 @@
+Roteiro:
+
+Introdução:
+- Judge:
+	- Explicar como funciona o judge.
+	- Falar dos limites(1 <= n <= 10⁵) e que vai ter o pior caso.	
+
+
+- TLE:  
+	- Falar quantas operações mais ou menos um processador faz por segundo(10⁸). 
+	- Falar que cada problema tem um limite de tempo, ou seja, um limite de operações que a sua solução pode fazer.
+	- Relacionar o TLE com o judge
+
+- Compexidade:
+	- Analise de algoritmos(quantas operações mais ou menos o seu algoritmo vai realizar, ressaltar que não vale a pena ficar se importando com constantes):
+		- Linear: ler um vetor.
+		- Quadrático: ler uma matriz.
+		- log base 10: pegar n e colocar os seus digitos num vetor.
+
+	- Definir Complexidade de um algoritmo, mas falar de uma maneira mais acochambrada, pra ficar mais fácil de entender.
+
+- Sorting:
+	- Comentar um algoritmo de sorting(Acho que o selection sort).
+	- Falar que a complexidade da função sort é nlogn.
+	- Passar alguma literatura sobre algoritmos de sort.
+
+- Soma das Casas:
+	- Deixar eles pensando um minuto.
+	- Mostrar e analisar a solução inocente.
+
+- Busca Binária:
+	- Fazer a brincadeira de procurar o número.
+	- Explicar como funciona o problema basicão.
+	- Mostrar o código e analisar a complexidade.
+	- Resolver o problema "Soma das casas" usando BB.
+	- Analisar a solução.
+	- (Talvez) Comentar sobre busca binária em intervalos.
+	- (Talvez) Falar sobre a ideia de ir testando a resposta usando busca binaria(Preciso elaborar um pouco mais).
+
+- Two Pointers:
+	- Explicar como funciona.
+	- Resolver o problema "Soma das casas" usando ele.
+	- Analisar a solução.
+	
+
+	
+	  

@@ -2,48 +2,50 @@
 
 using namespace std;
 
-#define fr(i, n) for(int i = 0; i < n; i++) 
+#define fr(i, n) for(int i = 0; i < n; i++)
 #define frr(i, n) for(int i = 1; i <= n; i++)
-#define frm(i, n) for(int i = n-1; i >= 0; i--) 
+#define frm(i, n) for(int i = n-1; i >= 0; i--)
 
 #define pb push_back
-#define erase(i) erase(v.begin() + i, v.begin() + i + 1) 
+
+typedef long long ll;
 typedef pair<int,int> pii;
+typedef pair<int, int> ponto;
+typedef vector<vector<ll>> matrix;
 
 #define mem(v, k) memset(v, k, sizeof(v));
 
 #define mp make_pair
 #define pq priority_queue
-	
-#define ll long long
+
+#define mx(a, b) a = max(a, b);
+#define mod(a, b) a = a%b;
 
 #define MAXN 2010
-#define INF 4000000
+#define MOD 1000000007
 
-int n, k;
+int s, n;
+int w[MAXN], v[MAXN];
 int memo[MAXN][MAXN];
-int value[MAXN], wght[MAXN];
 
-int dp(int ind, int cap){
-	if(ind == n) return 0;
-	if(cap == 0) return 0;
-	
-	if(memo[ind][cap] != -1) return memo[ind][cap];
+int dp(int item, int sobrou){
+    if(item == 0) return 0;
+    if(sobrou == 0) return 0;
+    if(memo[item][sobrou] != -1) return memo[item][sobrou];
 
-	int pega = -1;
-	if(cap >= wght[ind]) pega = value[ind] + dp(ind+1, cap - wght[ind]);
-	int passa = dp(ind+1, cap);
+    int ans = dp(item - 1, sobrou);
+    if(w[item] <= sobrou) ans = max(ans, dp(item - 1, sobrou - w[item]) + v[item]);
 
-	return memo[ind][cap] = max(pega, passa);
+    return memo[item][sobrou] = ans;
 }
 
-
 int main(){
-	cin >> k >> n;
+		ios::sync_with_stdio(false);
+    cin >> s >> n;
 
-	mem(memo, -1);
+    frr(i, n) cin >> w[i] >> v[i];
 
-	fr(i, n) cin >> wght[i] >> value[i];
+    mem(memo,-1);
 
-	cout << dp(0, k) << endl;
+    cout << dp(n, s) << endl;
 }

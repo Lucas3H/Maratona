@@ -1,0 +1,7 @@
+William gosta muito do número 11243(Pode ser qqr um). 
+Ele possui N cartas contendo dígitos de 0 a 9.
+
+N e as N cartas a1, a2, ..., aN são dadas.
+
+a) Ele consegue formar o seu número preferido usando as cartas que ele tem?
+b) Taki, o amigo 

@@ -7,15 +7,17 @@ using namespace std;
 #define frm(i, n) for(int i = n-1; i >= 0; i--)
 
 #define pb push_back
-
 #define f first
 #define s second
+
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<int, int> ponto;
 typedef vector<vector<ll>> matrix;
 
 #define mem(v, k) memset(v, k, sizeof(v));
+
+#define db cout << "Debug" << endl;
 
 #define mp make_pair
 #define pq priority_queue
@@ -25,60 +27,45 @@ typedef vector<vector<ll>> matrix;
 
 #define MAXN 100010
 #define MOD 1000000007
+#define MAXL 30
+#define ROOT 1
 
-int a[100][100], b[100][100];
+int m[61][61];
+int b[61][61];
 vector<pii> ans;
-void transform(int x, int y){
+void op(int x, int y){
+	ans.pb(mp(x, y));
 	b[x][y] = 1;
 	b[x+1][y] = 1;
-	b[x+1][y+1] = 1;
 	b[x][y+1] = 1;
-	ans.pb(mp(x, y));
+	b[x+1][y+1] = 1;
 }
 
 int main(){
 	ios::sync_with_stdio(false);
-	int n, m;
-	cin >> n >> m;
+	int c, r;
+	cin >> r >> c;
 
-	frr(i, n){
-		frr(j, m) cin >> a[i][j];
+	frr(i, r){
+		frr(j, c) cin >> m[i][j];
 	}
 
-	frr(i, n-1){
-		frr(j, m-1){
-			if(a[i][j] == 1 && b[i][j] == 0) transform(i, j);
-		}
-
-		if(a[i][m] == 1 && a[i][m-1] == 1) transform(i, m-1);
-		if(a[i][m] == 1 && a[i][m-1] == 0){
-			cout << -1 << endl;
-			return 0;
-		}
-	}
-
-	frr(i, m-1){
-		if(a[n-1][i] == 1 && a[n][i] == 1) transform(m-1, i);
-		if(a[n-1][i] == 0 && a[n][i] == 1){
-			cout << -1 << endl;
-			return 0;
-		}
-	}
-
-
-	if(a[n][m-1] == 1 && a[n-1][m] == 1 && a[m][n] == 1) transform(m-1, n-1);
-
-	frr(i, n){
-		frr(j, m){
-			if(a[i][j] != b[i][j]){
-				cout << -1 << endl;
-				return 0;
+	int deu = 0;
+	frr(i, r-1){
+		frr(j, c-1){
+			if(m[i][j] == 1 && m[i + 1][j] == 1 && m[i][j+1] == 1 && m[i+1][j+1] == 1){
+				op(i, j);
 			}
 		}
 	}
 
-	cout << ans.size() << endl;
-	fr(i, ans.size()){
-		cout << ans[i].f << " " << ans[i].s << endl;
+	frr(i, r){
+		frr(j, c) if(m[i][j] != b[i][j]) deu = 1;
+	}
+
+	if(deu) cout << -1 << endl;
+	else{
+		cout << ans.size() << endl;
+		fr(i, ans.size()) cout << ans[i].f << " " << ans[i].s << endl;
 	}
 }

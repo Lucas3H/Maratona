@@ -28,120 +28,98 @@ typedef vector<vector<ll>> matrix;
 #define MAXN 100010
 #define MOD 1000000007
 
-bool comp(string s, string t){
-	if(s.size() != t.size()) return 1;
-
-	fr(i, s.size()){
-		if(s[i] != t[t.size() - 1 - i]) return 1;
-	}
-
-	return 0;
-}
-
-int hashTable(vector<char> s){
-	ll hash = 0;
-	fr(i, s.size()){
-		hash = (3*hash + s[i] - '0' + 1)%MOD;
-	}
-
-	return hash;
-}
-
 int main(){
-	ios::sync_with_stdio(false);
-
 	int t;
-	cin >> t;
+	scanf("%d", &t);
 
 	while(t--){
 		int n;
-		cin >> n;
+		scanf("%d", &n);
 
-		vector<int> v[4];
-		map<int, int> m;
-		vector<char> a[2*MAXN];
-
-		int h[2*MAXN];
-
+		set<int> v[4];
+		map<string, int> m;
+		int tam[4] = {0, 0, 0, 0};
 		string s;
 
 		frr(i, n){
 			cin >> s;
 
+			string l = s;
+			reverse(l.begin(), l.end());
+
+			int group;
 			if(s[s.size() - 1] == '0'){
-				if(s[0] == '0') v[0].pb(i);
-				else v[1].pb(i);
+				if(s[0] == '0') {
+					group = 0;
+					tam[0]++;
+				}
+				else {
+					group = 1;
+					tam[1]++;
+				}
 			}
 			else{
-				if(s[0] == '1') v[3].pb(i);
-				else{
-					v[2].pb(i);
-					//t2.push(s);
+				if(s[0] == '1'){
+					group = 3;
+					tam[3]++;
+				}
+				else {
+					group = 2;
+					tam[2]++;
 				}
 			}
 
-			vector<char> normal, inv;
-			fr(j, s.size()){
-				inv.pb(s[s.size() - 1 - j]);
-				a[i].pb(s[j]);
-			}
-
-			h[i] = hashTable(a[i]);
-
-			m[h[i]]++;
-			m[hashTable(inv)]++;
-		}
-/*
-		for(auto x: m){
-			cout << x.f << " " << x.s << endl;
-		}
-
-		frr(i, n) {
-			fr(j, a[i].size()) cout << a[i][j];
-			cout << endl;
-		}
-*/
-		if(v[1].size() == 0 && v[2].size() == 0){
-			if(v[0].size() > 0 && v[3].size() > 0){
-				cout << -1 << endl;
+			if(m[l]) {
+				v[3 - group].erase(m[l]);
+				m[l] = 0;
 			}
 			else{
-				cout << 0 << endl << endl;
+				v[group].insert(i);
+				m[s] = i;
+			}
+		}
+/*
+		for(auto x: m) cout << x.f << " " << x.s << endl;
+		cout << "tam\n";
+		fr(i, 4) cout << tam[i] << ' ';
+		cout << endl; 
+*/
+		if(tam[1] == 0 && tam[2] == 0){
+			if(tam[0] > 0 && tam[3] > 0){
+				printf("-1\n");
+			}
+			else{
+				printf("0\n\n");
 			}
 		}
 		else{
-			if(v[2].size() > v[1].size()){
-				int dif = (v[2].size() - v[1].size())/2;
-				cout << dif << endl;
+		/*	db;
+			cout << tam[2] << " " << tam[1] << endl;
+		*/	if(tam[2] > tam[1]){
+				int dif = (tam[2] - tam[1])/2;
+				printf("%d\n", dif);
 				int j = 0;
 
-				while(dif){
-					
-					if(m[h[v[2][j]]] == 1){
-						cout << v[2][j] << " ";
-						dif--;
-					}
-
-					j++;
+				for(auto x: v[2]){
+					if(dif == 0) break;
+					cout << x << " ";
+					dif--;
 				}
 			}
-			else{
-				int dif = (v[1].size() - v[2].size())/2;
-				cout << dif << endl;
+			else{	
+				int dif = (tam[1] - tam[2])/2;
+				printf("%d\n", dif);
 				int j = 0;
 
-				while(dif){
-					if(m[h[v[1][j]]] == 1){
-						cout << v[1][j] << " ";
-						dif--;
-					}
-
-					j++;
+				for(auto x: v[1]){
+					if(dif == 0) break;
+					cout << x << " ";
+					dif--;
 				}
 			}
 			
 
-			cout << endl;
+			printf("\n");
 		}
 	}
 }

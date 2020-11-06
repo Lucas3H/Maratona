@@ -25,9 +25,60 @@ typedef vector<vector<ll>> matrix;
 #define mx(a, b) a = max(a, b);
 #define mod(a, b) a = a%b;
 
-#define MAXN 100010
+#define MAXN 200010
 #define MOD 1000000007
 
+int n, edges, a, b;
+set<int> adj[MAXN];
+int pr[MAXN], val[MAXN];
+
+void read(){
+	cin >> n >> edges >> a >> b;
+
+	frr(i, n){
+		adj[i].clear();
+		pr[i] = 0;
+		val[i] = 0;
+	}
+	fr(i, edges){
+		int v1, v2;
+		cin >> v1 >> v2;
+
+		adj[v1].insert(v2);
+		adj[v2].insert(v1);
+	}
+}
+
+void dfs(int v, int t){
+	pr[v] = 1;
+	val[v]+=t;
+
+	for(auto x: adj[v]){
+		if(t == 1 && x == b) continue;
+		else if(t == 2 && x == a) continue;
+
+		if(!pr[x]) dfs(x, t);
+	}
+}
+
 int main(){
-	ios::sync_with_stdio(false);
+	int t;
+	cin >> t;
+
+	while(t--){
+		read();
+		dfs(a, 1);
+
+		frr(i, n) pr[i] = 0;
+		dfs(b, 2);
+
+		ll a1 = -1, b1 = -1;
+
+		frr(i, n){
+			if(val[i] == 1) a1++;
+			else if(val[i] == 2) b1++;
+		}
+
+		cout << a1*b1 << endl;
+	}
 }

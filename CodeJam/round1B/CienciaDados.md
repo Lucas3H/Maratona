@@ -1,0 +1,4 @@
+Nome: Lucas Hiroshi Hanke Harada
+NUSP: 10737081
+
+O tópico principal da palestra foi Ciência de Dados. O prof. Hirata deu um panorama geral sobre Ciencia de Dados hoje em dia. Depois, ele começou citando uma conferência de Ciencia de Dados, na qual ele foi, e ele comentou sobre alguns palestrantes, o que eles iriam apresentar, e quais os requisitos para participar.Uma das coisas que eu mais gostei da palestra foi sobre o site Kaggle que continha diversas competições de Ciência de Dados, no qual qualquer um podia participar e quem apresentasse a melhor solução para o problema proposto ganha(Eu particularmente gosto bastante de competições e isso me chamou bastante a atenção).

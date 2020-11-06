@@ -9,13 +9,13 @@ int funcao(int k, int s){
 	
 	if(n[k][s]) return f[k][s];
 	
-	if(s==0) return 1;
-	if(k==0) return 0;
+	if(s == 0) return 1;
+	if(k == 0) return 0;
 	
 	int notas=0;
 	f[k][s]=0;
 	
-	while(notas<=q[k] && s-notas*v[k]>=0){
+	while(notas <= q[k] && s-notas*v[k]>=0){
 		f[k][s]+=funcao(k-1, s-notas*v[k]);
 		notas++;
 	}

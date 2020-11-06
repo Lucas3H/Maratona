@@ -2,100 +2,99 @@
 
 using namespace std;
 
-#define fr(i, n) for(int i = 0; i < n; i++)
+#define fr(i, n) for(int i = 0; i < n; i++) 
 #define frr(i, n) for(int i = 1; i <= n; i++)
-#define frm(i, n) for(int i = n-1; i >= 0; i--)
+#define frm(i, n) for(int i = n-1; i >= 0; i--) 
 
 #define pb push_back
-
-typedef long long ll;
-typedef pair<long long,int> pii;
-typedef pair<int, int> ponto;
-typedef vector<vector<ll>> matrix;
+#define erase(i) erase(v.begin() + i, v.begin() + i + 1) 
+typedef pair<int,int> pii;
 
 #define mem(v, k) memset(v, k, sizeof(v));
 
 #define mp make_pair
 #define pq priority_queue
-
-#define mx(a, b) a = max(a, b);
-#define mod(a, b) a = a%b;
+	
+#define ll long long
 
 #define MAXN 100010
-#define MOD 1000000007
 
-int pr[MAXN], pai[MAXN];
-ll d[MAXN];
+int n, m;
 vector<pii> adj[MAXN];
+int dist[MAXN], processado[MAXN], pai[MAXN];
 
-vector<int> a[MAXN];
+void bfs(int V){
+	pq<pair<int, pii>> fila;
+	fila.push(mp(0, mp(V, 0)));
 
-void bfs(int v){
-    pq<pair<ll, pii>> fila;
-    fila.push(mp(0, mp(v, v)));
+	while(true){
+		int davez = -1;
 
-    while(true){
-       int davez = -1;
+		while(!fila.empty()){
+			int atual = fila.top().second.first;
 
-       while(!fila.empty()){
-          int u = fila.top().second.first;
+			if(!processado[atual]){
+				pai[atual] = fila.top().second.second;
+				dist[atual] = -fila.top().first;
+				davez = atual;
+				processado[davez] = 1;
+	
+				break;
+			}
+		
+			fila.pop();	
+		}
 
-          if(!pr[u]){
-              pr[u] = 1;
-              d[u] = -fila.top().first;
-              pai[u] = fila.top().second.second;
-              davez = u;
-              break;
-          }
+		if(davez == -1) break;
 
-          fila.pop();
-       }
-
-       if(davez == -1) break;
-
-       fr(i, adj[davez].size()){
-          int v = adj[davez][i].first, e = adj[davez][i].second;
-
-          if(!pr[v]){
-              fila.push(mp(-d[davez] - e, mp(v, davez)));
-          }
-       }
-    }
+		fr(i, adj[davez].size()){
+			int e = adj[davez][i].second, v = adj[davez][i].first;
+			
+			if(!processado[v]){
+				pai[v] = davez;
+				fila.push(mp(-dist[davez] - e, mp(v, davez)));
+			}
+		}
+	}
 }
 
 int main(){
-		ios::sync_with_stdio(false);
+	cin >> n >> m;
 
-    int n, e;
-    cin >> n >> e;
+	fr(i, m){
+		int v1, v2, e;
+		cin >> v1 >> v2 >> e;
 
-    int x, y, w;
-    fr(i, e){
-        cin >> x >> y >> w;
-        adj[x].pb(mp(y, w));
-        adj[y].pb(mp(x, w));
-    }
+		adj[v1].pb(mp(v2, e));
+		adj[v2].pb(mp(v1, e));
+	}
 
-    mem(d, -1);
+	mem(pai, 0);
+	mem(dist, -1);
+	mem(processado,0);
 
-    bfs(1);
+	bfs(1);
 
-    if(d[n] == -1) cout << -1 << endl;
-    else{
-        int x = n;
-        stack<int> ans;
-        while(pai[x] != x){
-            ans.push(x);
-            x = pai[x];
-        }
+	vector<int> resp;
+	int ind = n;
 
-        ans.push(1);
+	if(dist[n] != -1){
+		
+		while(pai[ind] != 0){
+			resp.pb(ind);
+			ind = pai[ind];
+		}
+		resp.pb(1);
 
-        while(!ans.empty()){
-            cout << ans.top() << " ";
-            ans.pop();
-        }
+		frm(i, resp.size()){
+			cout << resp[i] << " ";
+		}
 
-        cout << endl;
-    }
+	}
+	else{
+		cout << -1 << endl;
+	}
+	
+
+	return 0;
 }

@@ -59,13 +59,13 @@ int lca(int a, int b){
 
 /*Retorna o k-ésimo elemento no caminho de v até o ROOT*/
 int kth(int v, int k){
-	int i = l;
+	int i = maxl;
     k--;
 
 	while(k > 0){
 		if((1 << i) <= k){
-			k -= (1 << l);
-			v = anc[v][i];
+			k -= (1 << i);
+			v = ancestor[v][i];
 		}
 
 		i--;
@@ -79,7 +79,7 @@ void restart(){
         adj[i].clear();
         pr[i] = 0;
     }
-    t = 0;
+    tempo = 0;
 
 }
 

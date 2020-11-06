@@ -2,82 +2,128 @@
 
 using namespace std;
 
-#define fr(i, n) for(int i = 0; i < n; i++)
+#define fr(i, n) for(int i = 0; i < n; i++) 
 #define frr(i, n) for(int i = 1; i <= n; i++)
-#define frm(i, n) for(int i = n-1; i >= 0; i--)
+#define frm(i, n) for(int i = n-1; i >= 0; i--) 
 
 #define pb push_back
-
-typedef long long ll;
+#define erase(i) erase(v.begin() + i, v.begin() + i + 1) 
 typedef pair<int,int> pii;
-typedef pair<int, int> ponto;
-typedef vector<vector<ll>> matrix;
 
 #define mem(v, k) memset(v, k, sizeof(v));
 
 #define mp make_pair
 #define pq priority_queue
 
-#define mx(a, b) a = max(a, b);
-#define mod(a, b) a = a%b;
+#define ll long long
 
 #define MAXN 510
-#define MOD 1000000007
 
-int mov_x[4] = {1, -1, 0, 0};
-int mov_y[4] = {0, 0, 1, -1};
+char m[MAXN][MAXN];
+int processado[MAXN][MAXN], grau[MAXN][MAXN];
+pii pai[MAXN][MAXN];
+int n, M, k;
+	
+int dir[][2] = {
+	{0, 1},
+	{0, -1},
+	{1, 0},
+	{-1, 0}
+};
 
-int processado[MAXN][MAXN];
-char tab[MAXN][MAXN];
-int n, m, k;
+void dfs(int i, int j) {
+	processado[i][j] = 1;
 
-int dfs(int x, int y){
-    int filhos = 0;
+	int dg = 0;
 
-    processado[x][y] = 1;
+	for (int k = 0; k < 4; k++) {
+		int ni = i + dir[k][0];
+		int nj = j + dir[k][1];
 
-    fr(i, 4){
-      int u = x + mov_x[i], v = y + mov_y[i];
+		if(ni > n-1 || ni < 0 || nj > M-1 || nj < 0 ) continue;
 
-      if(u > n ||u < 1 || v > m || v < 1) continue;
-      if(tab[u][v] == '#') continue;
+		if(processado[ni][nj] == 0 && m[ni][nj] == '.'){
+			pai[ni][nj] = mp(i, j);
+			dg++;
+			dfs(ni, nj); 
+		}
 
-      if(!processado[u][v]){
-        filhos += dfs(u, v);
-      }
-    }
+	}
 
-    if(filhos == 0 && k > 0){
-
-        tab[x][y] = 'X';
-        k--;
-    }
-
-//    cout << x << " " <<y << " " << filhos << endl;
-
-    return filhos;
+	grau[i][j] = dg + 1;
 }
+/*
+void transformacao(int i, int j){
+	if(grau[i][j] > 1) return;
+	if(i == X && j == Y) return;
+	if(k == 0) return;
+	if(m[i][j] != '.') return;
+
+	m[i][j] = 'X';
+	k--;
+	grau[i][j] = 0;
+
+	int x = pai[i][j].first, y = pai[x][y].second;
+	grau[x][y]--;
+
+	transformacao(x, y);
+}*/
 
 int main(){
-		ios::sync_with_stdio(false);
+	cin >> n >> M >> k;
 
-    cin >> n >> m >> k;
+	mem(processado, 0);
+	mem(grau, 0);
 
-    int x, y;
-    frr(i, n){
-        frr(j, m){
-          cin >> tab[i][j];
-          if(tab[i][j] == '.'){
-              x = i;
-              y = j;
-          }
-        }
-    }
+	int X = -1, Y = -1;
 
-    int l = dfs(x, y);
 
-    frr(i, n){
-        frr(j, m) cout << tab[i][j];
-        cout << endl;
-    }
+	fr(i, n){
+		fr(j, M) {
+			cin >> m[i][j];
+			if(m[i][j] == '.'){
+				X = i;
+				Y = j;
+			}
+		}
+	}
+
+	dfs(X, Y);
+	grau[X][Y]--;
+	//pai[X][Y]
+
+	stack<pii> grau_1; 
+
+	fr(i, n){
+		fr(j, M){
+			if(grau[i][j] == 1) grau_1.push(mp(i, j));
+		}
+	}
+
+
+	while(k > 0){
+	
+		int x = grau_1.top().first, y = grau_1.top().second;
+		grau_1.pop();
+
+		m[x][y] = 'X';
+		k--;
+		grau[x][y] = 0;
+
+
+		if(x == X && y == Y) continue;
+
+		int r = pai[x][y].first, s = pai[x][y].second;	
+		
+		grau[r][s]--;
+
+		if(grau[r][s] == 1) grau_1.push(mp(r, s));
+	}
+
+	fr(i, n){
+		fr(j, M) cout << m[i][j];
+
+		cout << endl;
+	}
 }
+

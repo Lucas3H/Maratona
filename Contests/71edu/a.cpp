@@ -7,15 +7,17 @@ using namespace std;
 #define frm(i, n) for(int i = n-1; i >= 0; i--)
 
 #define pb push_back
-
 #define f first
 #define s second
+
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<int, int> ponto;
 typedef vector<vector<ll>> matrix;
 
 #define mem(v, k) memset(v, k, sizeof(v));
+
+#define db cout << "Debug" << endl;
 
 #define mp make_pair
 #define pq priority_queue
@@ -25,31 +27,55 @@ typedef vector<vector<ll>> matrix;
 
 #define MAXN 100010
 #define MOD 1000000007
+#define MAXL 30
+#define ROOT 1
 
 int main(){
 	ios::sync_with_stdio(false);
-
 	int t;
 	cin >> t;
 
 	while(t--){
 		int b, p, f, h, c;
-		cin >> b >> p >> f;
+		cin >> b >> p  >> f;
 		cin >> h >> c;
 
-		b = b/2;
-
+		int ans = 0;
 		if(h > c){
-			if(b > p){
-				cout << h*p+c*min(b-p, f) << endl;
+			if(b > 2*p){
+				b -=2*p;
+				ans+=h*p;
+
+				if(b > 2*f){
+					b-=2*f;
+					ans+=c*f;
+				}
+				else{
+					ans+=c*(floor(b/2));
+				}
 			}
-			else cout << b*h << endl;
+			else{
+				ans+=h*floor(b/2);
+			}
 		}
 		else{
-			if(b > f){
-				cout << c*f+h*min(b-f, p) << endl;
+			if(b > 2*f){
+				b -=2*f;
+				ans+=c*f;
+
+				if(b > 2*p){
+					b-=2*p;
+					ans+=h*p;
+				}
+				else{
+					ans+=h*(floor(b/2));
+				}
 			}
-			else cout << b*c << endl;
+			else{
+				ans+=c*floor(b/2);
+			}
 		}
+
+		cout << ans << endl;
 	}
 }
